@@ -1,4 +1,3 @@
---> statement-breakpoint
 CREATE TABLE `Users` (
 	`tgId` varchar(255) NOT NULL,
 	`username` varchar(255),
