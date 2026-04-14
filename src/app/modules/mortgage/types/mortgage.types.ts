@@ -36,6 +36,9 @@ export type MortgageCalculationRecord = {
   id: number;
   userId: string;
   mortgageProfileId: number;
+  inputHash: string;
+  status: 'pending' | 'ready' | 'failed';
+  errorMessage: string | null;
   monthlyPayment: string;
   totalPayment: string;
   totalOverpaymentAmount: string;
@@ -56,3 +59,9 @@ export type MortgageCalculationResponse = {
 };
 
 export type CreateMortgageInput = CreateMortgageProfileDto;
+
+export type MortgageCalculationJobPayload = {
+  calculationId: number;
+  inputHash: string;
+  dto: CreateMortgageProfileDto;
+};
