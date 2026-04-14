@@ -6,7 +6,7 @@ import {
   serial,
   varchar
 } from 'drizzle-orm/mysql-core';
-import { users } from 'src/app/modules/user/schemas/users';
+import { users } from '../../user/schemas/users';
 
 //вообще принято именовать в snake_case, но для консистентности с Users - оставляем так
 export const mortgageProfile = mysqlTable('MortgageProfile', {

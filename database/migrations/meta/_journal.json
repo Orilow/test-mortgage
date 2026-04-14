@@ -15,6 +15,13 @@
       "when": 1776161849009,
       "tag": "0001_lazy_doctor_doom",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1776165021649,
+      "tag": "0002_material_overlord",
+      "breakpoints": true
     }
   ]
 }
