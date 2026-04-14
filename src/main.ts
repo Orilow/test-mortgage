@@ -12,11 +12,10 @@ async function bootstrap() {
   app.use(cookieParser());
   app.useGlobalPipes(new ValidationPipe());
 
+  app.setGlobalPrefix('api');
   setupSwagger(app);
 
   setupCors(app);
-
-  app.setGlobalPrefix('api');
   await app.listen(5094);
 }
 bootstrap();

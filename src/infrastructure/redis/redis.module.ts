@@ -11,13 +11,20 @@ import { REDIS_BASE_TOKEN } from './redis.constants';
       provide: REDIS_BASE_TOKEN,
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
-        return new Redis({
+        const redis = new Redis({
           host: configService.getOrThrow<string>('REDIS_HOST'),
           port: Number(configService.getOrThrow<string>('REDIS_PORT')),
           password: configService.get('REDIS_PASSWORD') || undefined,
           lazyConnect: true,
           maxRetriesPerRequest: 1,
         });
+
+        redis.on('error', (error: Error) => {
+          // логгирование в observability системах
+          console.error('Redis error:', error.message);
+        });
+
+        return redis;
       },
     },
   ],
