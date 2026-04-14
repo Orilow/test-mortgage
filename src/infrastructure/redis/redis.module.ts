@@ -12,8 +12,8 @@ import { REDIS_BASE_TOKEN } from './redis.constants';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
         return new Redis({
-          host: configService.get('REDIS_HOST') || '127.0.0.1',
-          port: Number(configService.get('REDIS_PORT') || 6379),
+          host: configService.getOrThrow<string>('REDIS_HOST'),
+          port: Number(configService.getOrThrow<string>('REDIS_PORT')),
           password: configService.get('REDIS_PASSWORD') || undefined,
           lazyConnect: true,
           maxRetriesPerRequest: 1,

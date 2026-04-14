@@ -14,11 +14,11 @@ import { databaseSchema } from './schema';
             provide: DATABASE_TOKEN,
             useFactory: async (configService: ConfigService): Promise<Database> => {
                 const connection = mysql.createPool({
-                    host: configService.get('HOST'),
-                    port: parseInt(configService.get('PORT') || '3306'),
-                    user: configService.get('USERNAME'),
+                    host: configService.getOrThrow<string>('HOST'),
+                    port: parseInt(configService.getOrThrow<string>('PORT'), 10),
+                    user: configService.getOrThrow<string>('USERNAME'),
                     password: configService.get('PASSWORD') || undefined,
-                    database: configService.get('DATABASE'),
+                    database: configService.getOrThrow<string>('DATABASE'),
                     timezone: DATABASE_CONSTANTS.DEFAULT_TIMEZONE,
                     dateStrings: true,
                 });
