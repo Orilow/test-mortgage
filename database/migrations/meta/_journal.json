@@ -29,6 +29,13 @@
       "when": 1776176061572,
       "tag": "0003_regular_mongu",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1776185400424,
+      "tag": "0004_free_network",
+      "breakpoints": true
     }
   ]
 }

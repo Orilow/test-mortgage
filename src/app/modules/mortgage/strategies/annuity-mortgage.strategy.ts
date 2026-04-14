@@ -1,67 +1,19 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException
-} from '@nestjs/common';
-import {
-  CreateMortgageProfileDto,
-  CreateMortgageProfileResponseDto,
-  MortgageCalculationResponseDto
-} from './dto';
-import { MortgageRepository } from './repositories/mortgage.repository';
+import { Injectable } from '@nestjs/common';
+import { CreateMortgageProfileDto } from '../dto';
 import {
   MortgageComputedValues,
   MortgagePaymentSchedule
-} from './types/mortgage.types';
+} from '../types/mortgage.types';
+import {
+  IMortgageCalculationStrategy,
+  MortgageStrategyType
+} from './mortgage-calculation-strategy.interface';
 
 @Injectable()
-export class MortgageService {
-  private static readonly DEFAULT_USER_ID = 'demo-user';
+export class AnnuityMortgageStrategy implements IMortgageCalculationStrategy {
+  readonly type = MortgageStrategyType.ANNUITY;
 
-  constructor(private readonly mortgageRepository: MortgageRepository) {}
-
-  async getMortgageProfile(
-    id: string
-  ): Promise<MortgageCalculationResponseDto> {
-    const calculationId = Number(id);
-    if (!Number.isInteger(calculationId) || calculationId <= 0) {
-      throw new BadRequestException('Invalid mortgage calculation id');
-    }
-
-    const calculation =
-      await this.mortgageRepository.findCalculationById(calculationId);
-    if (!calculation) {
-      throw new NotFoundException('Mortgage calculation not found');
-    }
-
-    return {
-      monthlyPayment: calculation.monthlyPayment,
-      totalPayment: calculation.totalPayment,
-      totalOverpaymentAmount: calculation.totalOverpaymentAmount,
-      possibleTaxDeduction: calculation.possibleTaxDeduction,
-      savingsDueMotherCapital: calculation.savingsDueMotherCapital,
-      recommendedIncome: calculation.recommendedIncome,
-      mortgagePaymentSchedule: JSON.parse(calculation.paymentSchedule)
-    };
-  }
-
-  async createMortgageProfile(
-    createMortgageProfileDto: CreateMortgageProfileDto
-  ): Promise<CreateMortgageProfileResponseDto> {
-    const computed = this.calculateMortgage(createMortgageProfileDto);
-
-    const id = await this.mortgageRepository.createProfileAndCalculation(
-      MortgageService.DEFAULT_USER_ID,
-      createMortgageProfileDto,
-      computed
-    );
-
-    return { id: id.toString() };
-  }
-
-  private calculateMortgage(
-    dto: CreateMortgageProfileDto
-  ): MortgageComputedValues {
+  calculate(dto: CreateMortgageProfileDto): MortgageComputedValues {
     const matCapital = dto.matCapitalIncluded ? (dto.matCapitalAmount ?? 0) : 0;
     const loanAmount = Math.max(
       dto.propertyPrice - dto.downPaymentAmount - matCapital,

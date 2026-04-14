@@ -1,6 +1,7 @@
 import {
   boolean,
   decimal,
+  index,
   int,
   mysqlTable,
   serial,
@@ -34,4 +35,6 @@ export const mortgageProfile = mysqlTable('MortgageProfile', {
   matCapitalIncluded: boolean('matCapitalIncluded').notNull(),
   mortgageTermYears: int('mortgageTermYears').notNull(),
   interestRate: decimal('interestRate', { scale: 3 }).notNull()
-});
+},
+  table => [index('mortgage_profile_user_id_idx').on(table.userId)]
+);

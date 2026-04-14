@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { MortgageService } from './mortgage.service';
+import { MortgageService } from './services/mortgage.service';
 import {
   CreateMortgageProfileDto,
   CreateMortgageProfileResponseDto,
