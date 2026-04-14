@@ -49,6 +49,7 @@
     "drizzle-seed": "^0.3.1",
     "glob": "^11.0.1",
     "grammy": "^1.35.0",
+    "ioredis": "^5.10.1",
     "mysql2": "^3.14.2",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.2",

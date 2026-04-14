@@ -3,11 +3,12 @@ import { eq } from 'drizzle-orm';
 import { type User, users } from './schemas/users';
 import { Database } from '../../../database/schema';
 import { CreateUserDto } from './dto/create-user.dto';
+import { DATABASE_TOKEN } from '../../../database/constants';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @Inject('DATABASE') private readonly db: Database,
+    @Inject(DATABASE_TOKEN) private readonly db: Database,
   ) {}
 
   async findOrCreate(dto: CreateUserDto): Promise<User> {

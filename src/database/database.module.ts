@@ -3,7 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { drizzle } from 'drizzle-orm/mysql2';
 import mysql from 'mysql2/promise';
 import { Database } from './schema';
-import { DATABASE_CONSTANTS } from './constants';
+import { DATABASE_CONSTANTS, DATABASE_TOKEN } from './constants';
 import { databaseSchema } from './schema';
 
 @Global()
@@ -11,7 +11,7 @@ import { databaseSchema } from './schema';
     imports: [ConfigModule],
     providers: [
         {
-            provide: 'DATABASE',
+            provide: DATABASE_TOKEN,
             useFactory: async (configService: ConfigService): Promise<Database> => {
                 const connection = mysql.createPool({
                     host: configService.get('HOST'),
@@ -31,6 +31,6 @@ import { databaseSchema } from './schema';
             inject: [ConfigService],
         },
     ],
-    exports: ['DATABASE'],
+    exports: [DATABASE_TOKEN],
 })
 export class DatabaseModule { } 

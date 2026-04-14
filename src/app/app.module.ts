@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './modules/user/users.module';
 import { DatabaseModule } from '../database/database.module';
 import { MortgageModule } from './modules/mortgage/mortgage.module';
+import { RedisModule } from '../infrastructure/redis';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { MortgageModule } from './modules/mortgage/mortgage.module';
       isGlobal: true
     }),
     DatabaseModule,
+    RedisModule,
     UsersModule,
     MortgageModule
   ],
